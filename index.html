@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smallfish Gay Test</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --background-color: #f0f3f7;
+            --text-color: #2d3436;
+            --card-bg-color: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: var(--card-bg-color);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .answers {
+            display: grid;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        button:hover, button:focus {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: var(--primary-color);
+        }
+
+        #nameInput {
+            margin-bottom: 20px;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .quiz-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .question {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Smallfish Gay Test</h1>
+        <div id="namePrompt">
+            <input type="text" id="nameInput" placeholder="Enter your name" required>
+            <button onclick="startQuiz()">Start Quiz</button>
+        </div>
+        <div id="quizContent" class="hidden">
+            <div id="question" class="question"></div>
+            <div id="answers" class="answers"></div>
+        </div>
+        <div id="result" class="hidden"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What's your favorite color?",
+                answers: ["Blue", "Pink", "TJY", "Rainbow 🌈"]
+            },
+            {
+                question: "What's your ideal vacation?",
+                answers: ["Indrapura", "Tebrau", "旗鱼海番村", "Senai"]
+            },
+            {
+                question: "Which animal do you like the most?",
+                answers: ["开心", "jieleduo", "Peacock 🦚", "Smallfish 🐟"]
+            },
+            {
+                question: "What's your go-to outfit?",
+                answers: ["Jeans and T-shirt", "naked", "qiqi costume", "Whatever's fabulous"]
+            },
+            {
+                question: "What's your favorite drink?",
+                answers: ["100号", "Milo", "Cola", "qianliexianye"]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let playerName = "";
+
+        function startQuiz() {
+            playerName = document.getElementById("nameInput").value.trim();
+            if (playerName === "") {
+                alert("Please enter your name!");
+                return;
+            }
+            document.getElementById("namePrompt").classList.add("hidden");
+            document.getElementById("quizContent").classList.remove("hidden");
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const questionEl = document.getElementById("question");
+            const answersEl = document.getElementById("answers");
+            
+            questionEl.textContent = questions[currentQuestion].question;
+            answersEl.innerHTML = "";
+            
+            questions[currentQuestion].answers.forEach((answer, index) => {
+                const button = document.createElement("button");
+                button.textContent = answer;
+                button.onclick = () => selectAnswer(index);
+                answersEl.appendChild(button);
+            });
+        }
+
+        function selectAnswer(index) {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quizContent").classList.add("hidden");
+            const resultEl = document.getElementById("result");
+            resultEl.classList.remove("hidden");
+            resultEl.innerHTML = `Congratulations ${playerName}, you're 100% gay! 🏳️‍🌈<br><br>Send a screenshot of this result to me!`;
+        }
+    </script>
+</body>
+</html>
